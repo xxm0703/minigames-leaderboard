@@ -1,31 +1,37 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GameSelector } from '../components/GameSelector'
 import { ScoreForm } from '../components/ScoreForm'
 import { Leaderboard } from '../components/Leaderboard'
-
-interface Score {
-  id: string
-  playerName: string
-  gameName: string
-  time: number
-  date: string // This will be YYYY-MM-DD format
-}
-
-const GAMES = ['Game 1', 'Game 2', 'Game 3']
+import { getScores, addScore, Score } from '../services/scores'
 
 export default function Home() {
   const [selectedGame, setSelectedGame] = useState<string>('')
   const [scores, setScores] = useState<Score[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const handleScoreSubmit = (scoreData: Omit<Score, 'id' | 'date'>) => {
-    const newScore: Score = {
-      id: Date.now().toString(),
+  useEffect(() => {
+    loadScores()
+  }, [selectedGame])
+
+  const loadScores = async () => {
+    setLoading(true)
+    const fetchedScores = await getScores(selectedGame)
+    setScores(fetchedScores)
+    setLoading(false)
+  }
+
+  const handleScoreSubmit = async (scoreData: Omit<Score, 'id' | 'date'>) => {
+    const newScore = {
       ...scoreData,
-      date: new Date().toISOString().split('T')[0], // Store only the date part
+      date: new Date().toISOString().split('T')[0],
     }
-    setScores([...scores, newScore])
+    
+    const savedScore = await addScore(newScore)
+    if (savedScore) {
+      setScores([...scores, savedScore])
+    }
   }
 
   const gameScores = scores
@@ -48,10 +54,14 @@ export default function Home() {
             onSubmit={handleScoreSubmit}
           />
 
-          <Leaderboard 
-            gameName={selectedGame}
-            scores={gameScores}
-          />
+          {loading ? (
+            <div className="text-center py-8">Loading scores...</div>
+          ) : (
+            <Leaderboard 
+              gameName={selectedGame}
+              scores={gameScores}
+            />
+          )}
         </>
       )}
     </div>
