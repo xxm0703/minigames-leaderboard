@@ -5,7 +5,7 @@ interface GameSelectorProps {
   onGameSelect: (game: string) => void
 }
 
-const GAMES = ['Game 1', 'Game 2', 'Game 3']
+const GAMES = ['Queens', 'Tango', 'Zip']
 
 export const GameSelector: React.FC<GameSelectorProps> = ({ selectedGame, onGameSelect }) => {
   return (

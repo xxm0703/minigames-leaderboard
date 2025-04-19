@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
+import { useAuth } from '../contexts/AuthContext'
 
 interface Score {
   id: string
@@ -19,10 +20,12 @@ export const ScoreForm: React.FC<ScoreFormProps> = ({ gameName, onSubmit }) => {
     time: '',
   })
 
+  const { user } = useAuth();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSubmit({
-      playerName: newScore.playerName,
+      playerName: user?.user_metadata?.display_name || user?.email || 'Anonymous',
       gameName,
       time: parseFloat(newScore.time),
     })
@@ -33,16 +36,6 @@ export const ScoreForm: React.FC<ScoreFormProps> = ({ gameName, onSubmit }) => {
     <div className="bg-white rounded-lg shadow-md p-6 mb-8">
       <h2 className="text-2xl font-semibold mb-4">Submit Score for {gameName}</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Player Name</label>
-          <input
-            type="text"
-            value={newScore.playerName}
-            onChange={(e) => setNewScore({ ...newScore, playerName: e.target.value })}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-            required
-          />
-        </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">Time (seconds)</label>
           <input
