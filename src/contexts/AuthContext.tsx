@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 interface AuthContextType {
   user: User | null
   signIn: (email: string, password: string) => Promise<void>
-  signUp: (email: string, password: string) => Promise<void>
+  signUp: (email: string, password: string, displayName: string) => Promise<void>
   signOut: () => Promise<void>
 }
 
@@ -47,8 +47,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (error) throw error
   }
 
-  const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({ email, password })
+  const signUp = async (email: string, password: string, displayName: string) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          display_name: displayName, // Save displayName in user_metadata
+        },
+      },
+    });
     if (error) throw error
   }
 

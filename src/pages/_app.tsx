@@ -1,1 +1,0 @@
-import '../app/globals.css'; // Adjust the path if necessary
