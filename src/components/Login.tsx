@@ -1,12 +1,13 @@
 "use client"
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 
-const Login: React.FC = () => {
+const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [displayName, setDisplayName] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -20,15 +21,12 @@ const Login: React.FC = () => {
 
     try {
       if (isSignUp) {
-        await signUp(email, password)
-        console.log('Sign up successful')
+        await signUp(email, password, displayName)
       } else {
         await signIn(email, password)
-        console.log('Sign in successful')
       }
       router.refresh()
     } catch (err) {
-      console.error('Auth error:', err)
       setError(err instanceof Error ? err.message : 'An error occurred during authentication')
     } finally {
       setLoading(false)
@@ -58,6 +56,22 @@ const Login: React.FC = () => {
             disabled={loading}
           />
         </div>
+        {isSignUp && (
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="displayName">
+              Display Name
+            </label>
+            <input
+              id="displayName"
+              type="text"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              className="w-full px-3 py-2 border rounded"
+              required={isSignUp}
+              disabled={loading}
+            />
+          </div>
+        )}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
             Password

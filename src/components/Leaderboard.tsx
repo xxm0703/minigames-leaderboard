@@ -1,14 +1,13 @@
 "use client"
 
-import React, { useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
+import { useState } from 'react'
 
 interface Score {
   id: string
   playerName: string
   gameName: string
   time: number
-  date: string // YYYY-MM-DD format
+  date: string
 }
 
 interface LeaderboardProps {
@@ -16,15 +15,13 @@ interface LeaderboardProps {
   scores: Score[]
 }
 
-export const Leaderboard: React.FC<LeaderboardProps> = ({ gameName, scores }) => {
+const Leaderboard = ({ gameName, scores }: LeaderboardProps) => {
   const [selectedDate, setSelectedDate] = useState<string>('')
 
-  // Get unique dates from scores
   const dates = Array.from(new Set(scores.map(score => score.date)))
     .sort()
     .reverse()
 
-  // Filter scores by selected date
   const filteredScores = selectedDate
     ? scores.filter(score => score.date === selectedDate)
     : scores
@@ -72,4 +69,6 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ gameName, scores }) =>
       </div>
     </div>
   )
-} 
+}
+
+export default Leaderboard 

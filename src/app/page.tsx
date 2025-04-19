@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react'
 import { GameSelector } from '../components/GameSelector'
 import { ScoreForm } from '../components/ScoreForm'
-import { Leaderboard } from '../components/Leaderboard'
+import Leaderboard from '../components/Leaderboard'
 import { getScores, addScore, Score } from '../services/scores'
-import { Header } from '../components/Header'
+import Header from '../components/Header'
 
 export default function Home() {
   const [selectedGame, setSelectedGame] = useState<string>('')
@@ -40,9 +40,9 @@ export default function Home() {
     .sort((a, b) => a.time - b.time)
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <main className="min-h-screen bg-gray-100">
       <Header />
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <div className="container mx-auto p-4">
         <h1 className="text-4xl font-bold text-center mb-8">Mini Games Leaderboard</h1>
         
         <GameSelector 
@@ -68,6 +68,6 @@ export default function Home() {
           </>
         )}
       </div>
-    </div>
+    </main>
   )
 } 
