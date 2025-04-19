@@ -32,7 +32,7 @@ export const getScores = async (gameName?: string): Promise<Score[]> => {
 export const addScore = async (score: Omit<Score, 'id'>): Promise<Score | null> => {
   const { data, error } = await supabase
     .from('scores')
-    .insert([score])
+    .upsert(score, { onConflict: "playerName, gameName, date" })
     .select()
     .single()
 

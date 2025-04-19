@@ -26,12 +26,13 @@ export default function Home() {
   const handleScoreSubmit = async (scoreData: Omit<Score, 'id' | 'date'>) => {
     const newScore = {
       ...scoreData,
-      date: new Date().toISOString().split('T')[0],
+      date: new Date(new Date().getTime() - 8 * 3600 * 1000).toISOString().split('T')[0],
     }
     
     const savedScore = await addScore(newScore)
     if (savedScore) {
-      setScores([...scores, savedScore])
+      const filteredScores = scores.filter(score => score.playerName !== savedScore.playerName && score.gameName === savedScore.gameName && score.date === savedScore.date)
+      setScores([...filteredScores, savedScore])
     }
   }
 
