@@ -1,10 +1,11 @@
-'use client'
+"use client"
 
 import React, { useState, useEffect } from 'react'
 import { GameSelector } from '../components/GameSelector'
 import { ScoreForm } from '../components/ScoreForm'
 import { Leaderboard } from '../components/Leaderboard'
 import { getScores, addScore, Score } from '../services/scores'
+import { Header } from '../components/Header'
 
 export default function Home() {
   const [selectedGame, setSelectedGame] = useState<string>('')
@@ -39,31 +40,34 @@ export default function Home() {
     .sort((a, b) => a.time - b.time)
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold text-center mb-8">Mini Games Leaderboard</h1>
-      
-      <GameSelector 
-        selectedGame={selectedGame}
-        onGameSelect={setSelectedGame}
-      />
+    <div className="min-h-screen bg-gray-100">
+      <Header />
+      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <h1 className="text-4xl font-bold text-center mb-8">Mini Games Leaderboard</h1>
+        
+        <GameSelector 
+          selectedGame={selectedGame}
+          onGameSelect={setSelectedGame}
+        />
 
-      {selectedGame && (
-        <>
-          <ScoreForm 
-            gameName={selectedGame}
-            onSubmit={handleScoreSubmit}
-          />
-
-          {loading ? (
-            <div className="text-center py-8">Loading scores...</div>
-          ) : (
-            <Leaderboard 
+        {selectedGame && (
+          <>
+            <ScoreForm 
               gameName={selectedGame}
-              scores={gameScores}
+              onSubmit={handleScoreSubmit}
             />
-          )}
-        </>
-      )}
+
+            {loading ? (
+              <div className="text-center py-8">Loading scores...</div>
+            ) : (
+              <Leaderboard 
+                gameName={selectedGame}
+                scores={gameScores}
+              />
+            )}
+          </>
+        )}
+      </div>
     </div>
   )
 } 

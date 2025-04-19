@@ -1,4 +1,7 @@
+"use client"
+
 import React, { useState } from 'react'
+import { useAuth } from '../contexts/AuthContext'
 
 interface Score {
   id: string
