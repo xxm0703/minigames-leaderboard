@@ -1,5 +1,5 @@
 "use client"
-
+import Link from 'next/link'
 import { useState } from 'react'
 import { getCurrentDate } from '../utils'
 
@@ -59,7 +59,10 @@ const Leaderboard = ({ gameName, scores }: LeaderboardProps) => {
             {filteredScores.map((score, index) => (
               <tr key={score.id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{score.playerName}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <Link href={`/h2h/${score.playerName}?game=${gameName}`} className="text-indigo-600 hover:text-indigo-900">
+                  {score.playerName}
+                  </Link> </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{score.time.toFixed(0)}s</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {new Date(score.date).toLocaleDateString()}

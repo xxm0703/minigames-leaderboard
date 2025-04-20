@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link'
 import { useAuth } from '../contexts/AuthContext'
 
 const Header = () => {
@@ -8,7 +9,9 @@ const Header = () => {
   return (
     <header className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Leaderboard</h1>
+        <Link href="/" className="text-white">
+          <h1 className="text-2xl font-bold">Leaderboard</h1>
+        </Link>
         <div className="flex items-center gap-4">
           {user ? (
             <>

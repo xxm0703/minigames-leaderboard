@@ -5,7 +5,6 @@ import { GameSelector } from '../components/GameSelector'
 import { ScoreForm } from '../components/ScoreForm'
 import Leaderboard from '../components/Leaderboard'
 import { getScores, addScore, Score } from '../services/scores'
-import Header from '../components/Header'
 import { getCurrentDate } from '../utils' 
 
 export default function Home() {
@@ -42,8 +41,6 @@ export default function Home() {
     .sort((a, b) => a.time - b.time)
 
   return (
-    <main className="min-h-screen bg-gray-100">
-      <Header />
       <div className="container mx-auto p-4">
         <h1 className="text-4xl font-bold text-center mb-8">Mini Games Leaderboard</h1>
         
@@ -70,6 +67,5 @@ export default function Home() {
           </>
         )}
       </div>
-    </main>
   )
 } 
