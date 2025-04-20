@@ -27,7 +27,7 @@ const H2HPage = () => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-semibold">
-        Head-to-Head Statistics for <span className="font-bold">{params.playerName}</span>
+        H2H Statistics for <span className="font-bold">{params.playerName}</span>
       </h2>
 
       {stats && (
